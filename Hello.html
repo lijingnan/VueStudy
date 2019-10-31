@@ -13,6 +13,7 @@
         <ol>
             <todo-item v-for="item in sites" v-bind:todo="item"></todo-item>
         </ol>
+        <p>{{changeData}} > 0 说明第二个vue实例可以修改第一个实例的值，并刷新页面</p>
     </div>
     <br>
     <p>自定义事件：父子组件传递数据</p>
@@ -34,7 +35,13 @@
                 { text: 'Runoob' },
                 { text: 'Google' },
                 { text: 'Taobao' }
-            ]
+            ],
+            changeData: 0
+        },
+        methods: {
+            update: function (size) {
+                changeData = size
+            }
         }
     })
 
@@ -61,9 +68,11 @@
         methods: {
             incrementTotal: function () {
                 this.total += 1
+                one.changeData = this.total
             }
         }
     })
+
 </script>
 
 </html>

@@ -18,8 +18,8 @@
     <p>自定义事件：父子组件传递数据</p>
     <div id="counter-event-example">
         <p>{{ total }}</p>
-        <button-counter v-on:increment="incrementTotal"></button-counter>
-        <button-counter v-on:increment="incrementTotal"></button-counter>
+        <button-counter v-on:increment="incrementTotal()"></button-counter>
+        <button-counter v-on:increment="incrementTotal()"></button-counter>
     </div>
 </body>
 <script>
@@ -38,17 +38,20 @@
         }
     })
 
+    //自定义事件
     Vue.component('button-counter', {
-        template: '<button v-on:click="incrementHandler">{{ counter }}</button>',
-        data: {
-            counter: 0
+        data: function () {
+            return {
+                counter: 0
+            }
         },
         methods: {
             incrementhandler: function () {
                 this.counter += 1
                 this.$emit('increment')
             }
-        }
+        },
+        template: '<button v-on:click="incrementHandler()">{{ counter }}</button>',
     })
     var two = new Vue({
         el: '#counter-event-example',

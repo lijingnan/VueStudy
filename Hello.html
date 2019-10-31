@@ -1,31 +1,66 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Hello</title>
-        <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
-    </head>
-    <body>
-        <div id="app">
-            <ol>
-                <todo-item v-for="item in sites" v-bind:todo="item"></todo-item>
-            </ol>
-        </div>
-    </body>
-    <script>
-        Vue.component('todo-item', {
-            props:['todo'],
-            template:'<li>{{todo.text}}</li>'
-        })
-        new Vue({
-            el: '#app',
-            data: {
-                sites: [
-                    { text: 'Runoob'},
-                    { text: 'Google'},
-                    { text: 'Taobao'}
-                ]
+
+<head>
+    <meta charset="utf-8">
+    <title>Hello</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+</head>
+
+<body>
+    <p>动态prop，使用v-bind指令将todo传给每一个重复的组件中</p>
+    <div id="app">
+        <ol>
+            <todo-item v-for="item in sites" v-bind:todo="item"></todo-item>
+        </ol>
+    </div>
+    <br>
+    <p>自定义事件：父子组件传递数据</p>
+    <div id="counter-event-example">
+        <p>{{ total }}</p>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+    </div>
+</body>
+<script>
+    Vue.component('todo-item', {
+        props: ['todo'],
+        template: '<li>{{todo.text}}</li>'
+    })
+    var one = new Vue({
+        el: '#app',
+        data: {
+            sites: [
+                { text: 'Runoob' },
+                { text: 'Google' },
+                { text: 'Taobao' }
+            ]
+        }
+    })
+
+    Vue.component('button-counter', {
+        template: '<button v-on:click="incrementHandler">{{ counter }}</button>',
+        data: {
+            counter: 0
+        },
+        methods: {
+            incrementhandler: function () {
+                this.counter += 1
+                this.$emit('increment')
             }
-        })
-    </script>
+        }
+    })
+    var two = new Vue({
+        el: '#counter-event-example',
+        data: {
+            total: 0
+        },
+        methods: {
+            incrementTotal: function () {
+                this.total += 1
+            }
+        }
+    })
+</script>
+
 </html>

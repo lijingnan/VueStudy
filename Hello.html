@@ -40,6 +40,7 @@
 
     //自定义事件
     Vue.component('button-counter', {
+        template: '<button v-on:click="incrementhandler()">{{ counter }}</button>',
         data: function () {
             return {
                 counter: 0
@@ -50,8 +51,7 @@
                 this.counter += 1
                 this.$emit('increment')
             }
-        },
-        template: '<button v-on:click="incrementHandler()">{{ counter }}</button>',
+        }
     })
     var two = new Vue({
         el: '#counter-event-example',

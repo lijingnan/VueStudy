@@ -1,99 +1,142 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <title>Hello</title>
-    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
-</head>
+	<head>
+		<meta charset="utf-8">
+		<title>Hello</title>
+		<script src="https://vuejs.org/js/vue.js"></script>
+	</head>
 
-<body>
-    <p>动态prop，使用v-bind指令将todo传给每一个重复的组件中</p>
-    <div id="app">
-        <ol>
-            <todo-item v-for="item in sites" v-bind:todo="item"></todo-item>
-        </ol>
-        <p>{{changeData}} > 0 说明第二个vue实例可以修改第一个实例的值，并刷新页面</p>
-    </div>    
-    <p>自定义事件：父子组件传递数据</p>
-    <div id="counter-event-example">
-        <p>{{ total }}</p>
-        <button-counter v-on:increment="incrementTotal()"></button-counter>
-        <button-counter v-on:increment="incrementTotal()"></button-counter>
-    </div>
-    <p>页面载入时，input 会自动获取焦点</p>
-    <input v-focus>
+	<body>
+		<p>动态prop，使用v-bind指令将todo传给每一个重复的组件中</p>
+		<div id="app">
+			<ol>
+				<todo-item v-for="item in sites" v-bind:key="item.id" v-bind:todo="item"></todo-item>
+			</ol>
+			<form v-on:submit.prevent="addNewTodo">
+				<label for="new-todo">Add a item</label>
+				<input v-model="newTodoText" id="new-todo" placehoder="E.g. Feed the cat">
+				<button>Add</button>
+			</form>
+			<ul>
+				<li is="todo-item" v-for="(item, index) in sites" v-bing:key="item.id" v-bind:todo="item" v-on:remove="sites.splice(index, 1)" />
+			</ul>
+			<p>{{changeData}} > 0 说明第二个vue实例可以修改第一个实例的值，并刷新页面</p>
+		</div>
+		<p>自定义事件：父子组件传递数据</p>
+		<div id="counter-event-example">
+			<p>{{ total }}</p>
+			<button-counter v-on:increment="incrementTotal()"></button-counter>
+			<button-counter v-on:increment="incrementTotal()"></button-counter>
+		</div>
+		<p>页面载入时，input 会自动获取焦点</p>
+		<input v-focus>
 
-    <br>
-    <div id="app2">
-        <div v-set-color="{color: 'green', text: '酷酷的南'}"></div>
-    </div>
+		<br>
+		<div id="app2">
+			<div v-set-color="{color: 'green', text: '酷酷的南'}"></div>
+		</div>
 
-</body>
-<script>
-    Vue.component('todo-item', {
-        props: ['todo'],
-        template: '<li>{{todo.text}}</li>'
-    })
-    var one = new Vue({
-        el: '#app',
-        data: {
-            sites: [
-                { text: 'Runoob' },
-                { text: 'Google' },
-                { text: 'Taobao' }
-            ],
-            changeData: 0
-        },
-        methods: {
-            update: function (size) {
-                changeData = size
-            }
-        }
-    })
+		<div id="test-component">
+			<my-component class="baz boo" />
+			<my-component v-if="showme" />
+			<<h1 v-if="showme">show</h1>
+		</div>
 
-    //自定义事件
-    Vue.component('button-counter', {
-        template: '<button v-on:click="incrementhandler()">{{ counter }}</button>',
-        data: function () {
-            return {
-                counter: 0
-            }
-        },
-        methods: {
-            incrementhandler: function () {
-                this.counter += 1
-                this.$emit('increment')
-            }
-        }
-    })
-    var two = new Vue({
-        el: '#counter-event-example',
-        data: {
-            total: 0
-        },
-        methods: {
-            incrementTotal: function () {
-                this.total += 1
-                one.changeData = this.total
-            }
-        }
-    })
+	</body>
+	<script>
+		Vue.component('todo-item', {
+			props: ['todo'],
+			template: '<li>{{todo.text}} <button v-on:click="$emit(\'remove\')">Remove</button></li>'
+		})
+		var one = new Vue({
+			el: '#app',
+			data: {
+				newTodoText: '',
+				sites: [{
+						id: 1,
+						text: 'Runoob'
+					},
+					{
+						id: 2,
+						text: 'Google'
+					},
+					{
+						id: 3,
+						text: 'Taobao'
+					}
+				],
+				changeData: 0,
+				nextTodoId: 4
+			},
+			methods: {
+				update: function(size) {
+					changeData = size
+				},
+				addNewTodo: function() {
+					this.sites.push({
+						text: this.newTodoText
+					})
+					this.newTodoText = ''
+				}
+			}
+		})
 
-    //注册一个全局自定义指令v-focus
-    Vue.directive('focus', {
-        //当绑定元素插入到DOM中
-        inserted: function (el) {
-            el.focus()
-        }
-    })
-    Vue.directive('set-color', function (el, binding) {
-        el.innerHTML = binding.value.text
-        el.style.backgroundColor = binding.value.color
-    })
-    var three = new Vue({
-        el: '#app2'
-    })
-</script>
+		//自定义事件
+		Vue.component('button-counter', {
+			template: '<button v-on:click="incrementhandler()">{{ counter }}</button>',
+			data: function() {
+				return {
+					counter: 0
+				}
+			},
+			methods: {
+				incrementhandler: function() {
+					this.counter += 1
+					this.$emit('increment')
+				}
+			}
+		})
+		var two = new Vue({
+			el: '#counter-event-example',
+			data: {
+				total: 0
+			},
+			methods: {
+				incrementTotal: function() {
+					this.total += 1
+					one.changeData = this.total
+				}
+			}
+		})
+
+		//注册一个全局自定义指令v-focus
+		Vue.directive('focus', {
+			//当绑定元素插入到DOM中
+			inserted: function(el) {
+				el.focus()
+			}
+		})
+		Vue.directive('set-color', function(el, binding) {
+			el.innerHTML = binding.value.text
+			el.style.backgroundColor = binding.value.color
+		})
+		var three = new Vue({
+			el: '#app2'
+		})
+
+		//v-bing 缩写成:
+		//v-on 缩写成@
+
+		Vue.component('my-component', {
+			template: '<p class="foo bar">Hi</p>'
+		})
+		var test = new Vue({
+			el: '#test-component',
+			data: {
+				showme: true
+			}
+		})
+	</script>
 
 </html>

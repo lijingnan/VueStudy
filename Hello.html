@@ -19,7 +19,7 @@
 				<button>Add</button>
 			</form>
 			<ul>
-				<li is="todo-item" v-for="(item, index) in sites" v-bing:key="item.id" v-bind:todo="item" v-on:remove="sites.splice(index, 1)" />
+				<li is="todo-item" v-for="(item, index) in sites" :key="item.id" v-bind:todo="item" v-on:remove="sites.splice(index, 1)" />
 			</ul>
 			<p>{{changeData}} > 0 说明第二个vue实例可以修改第一个实例的值，并刷新页面</p>
 		</div>
@@ -34,7 +34,7 @@
 
 		<br>
 		<div id="app2">
-			<div v-set-color="{color: 'green', text: '酷酷的南'}"></div>
+			<div v-set-color="{color: 'skyblue', text: '酷酷的南'}"></div>
 		</div>
 
 		<div id="test-component">

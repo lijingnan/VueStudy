@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<p class="one">啦啦</p>
+		<i>斜体</i>
+		<h1>标题</h1>
+		<strong>jiacu</strong>
+		<b>jiacu2</b>
+		<div id="app">
+			div
+		</div>
+		<span>行内</span>
+		<a href="www.baidu.com">baidu</a>
+		<input type="" name="" id="" value="" />
+		<input type="checkbox" name="" id="" value="duoxuan" />
+		<form action="" method="post">
+
+			<input type="submit" value="" />
+		</form>
+		<table border="" cellspacing="" cellpadding="">
+			<tr>
+				<th>Header</th>
+			</tr>
+			<tr>
+				<td>Data</td>
+			</tr>
+		</table>
+		<ul>
+			<li></li>
+		</ul>
+		<ol>
+			<li></li>
+		</ol>
+		<dl>
+
+		</dl>
+		<img src="">
+		<area shape="hhhhhh" coords="" href="" alt="" />
+
+		<select id="sel1" onchange="selectChange()">
+			<option value="0" selected="">--0--</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+		</select>
+		<select id="sel2" onchange="selectChangetwo()">
+			<!-- <option value ="0" selected="">--0--</option>
+			<option value ="3">3</option>
+			<option value ="4">4</option> -->
+		</select>
+		<select id="sel3" onchange="selectChangethree()">
+			<!-- <option value="0" selected="">--0--</option>
+			<option value="5">5</option>
+			<option value="6">6</option> -->
+		</select>
+
+
+	</body>
+	<style type="text/css">
+		.one {
+			color: blue;
+			background: yellow;
+		}
+
+		select {
+			width: 100px;
+		}
+	</style>
+	<script type="text/javascript">
+		
+		var sel1 = document.getElementById("sel1");
+		var sel2 = document.getElementById("sel2");
+		var sel3 = document.getElementById("sel3");
+		var count2 = 0;
+		var count3 = 0;
+		
+		function selectChange() {
+			var index = sel1.selectedIndex;
+			var val1 = sel1.options[index].value;		
+			var html1 = '';
+			for (var i = 0; i < 5; i++) {
+				html1 += '<option value ="' + val1+i + '">' + val1+i + '</option>';
+			}
+			sel2.innerHTML = html1;
+			
+			sel2.options[count2].selected = true;
+			
+			selectChangetwo();
+		}
+		
+		function selectChangetwo(){
+			var indexx = sel2.selectedIndex;
+			var val2 = sel2.options[indexx].value;
+			count2 = indexx;
+			
+			
+			var html3 = '';
+			for (var i = 0; i < 5; i++) {
+				html3 += '<option value ="' + val2+i + '">' + val2+i + '</option>';
+			}
+			sel3.innerHTML = html3;
+			sel3.options[count3].selected = true;
+			
+		}
+		
+		function selectChangethree(){
+			var indexxx = sel3.selectedIndex;
+			// var val3 = sel3.options[indexxx].value;
+			count3 = indexxx;
+		}
+		
+	</script>
+</html>
